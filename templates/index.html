@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Gerador de Senhas</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="icone">🔐</div>
+
+        <h1>Gerador de Senhas</h1>
+
+        <p class="descricao">
+            Crie senhas fortes e proteja suas contas.
+        </p>
+
+        <form method="POST">
+
+            <label for="tamanho">
+                Tamanho da senha
+            </label>
+
+            <input
+                type="number"
+                id="tamanho"
+                name="tamanho"
+                min="8"
+                max="128"
+                value="{{ tamanho }}"
+                required
+            >
+
+            <button type="submit" class="gerar">
+                Gerar senha
+            </button>
+
+        </form>
+
+        {% if erro %}
+            <p class="erro">{{ erro }}</p>
+        {% endif %}
+
+        {% if senha %}
+
+            <div class="resultado">
+
+                <h3>Sua senha:</h3>
+
+                <div class="senha-box">
+                    <span id="senha">{{ senha }}</span>
+                </div>
+
+                <p class="forca">{{ forca }}</p>
+
+                <button
+                    type="button"
+                    class="copiar"
+                    onclick="copiarSenha()"
+                >
+                    Copiar senha
+                </button>
+
+                <p id="mensagem"></p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+    <script>
+
+        function copiarSenha() {
+
+            let senha = document.getElementById("senha").innerText;
+
+            navigator.clipboard.writeText(senha)
+                .then(function() {
+                    document.getElementById("mensagem").innerText =
+                        "Senha copiada com sucesso!";
+                })
+                .catch(function() {
+                    document.getElementById("mensagem").innerText =
+                        "Não foi possível copiar a senha.";
+                });
+
+        }
+
+    </script>
+
+</body>
+</html>
